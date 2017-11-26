@@ -67,7 +67,7 @@ cout<<input<<endl;
         // parse matrix element
 
      //   int start=input.find('=')+2; int end=input.find(",",start+1); string s;
-     int start=input.find('[')+2; int end=input.find(",",start+2); string s;
+     int start=input.find('[')+1; int end=input.find(",",start+2); string s;
       // cout<<input<<endl;
         while(end<=input.size()){
          s=input.substr(start,end-start);   //cout<<s<<"--";
@@ -102,6 +102,8 @@ cout<<input<<endl;
          string name=input.substr(0,1);
         // name=trim(name);
          string matrix1,matrix2;
+
+
          
          if(input.find('+')<input.size()){
              name="C";
@@ -118,13 +120,15 @@ cout<<input<<endl;
         
         //  matrix2=input.substr(input.find('+')+1);    matrix2=trim(matrix2);    cout<<matrix2<<matrix2.length()<<endl;  
          matMap.insert(pair<string,Matrix>(name,matMap.at(matrix1)+matMap.at(matrix2)));
-         matMap.at(name).printMatrix();
+         //matMap.at(name).printMatrix();
          if(input[input.size()-1]!=';'){
            cout<<name<<'='<<endl;
        matMap.at(name).printMatrix();
        }   
           
       }
+
+
 
       if(input.find('-')<input.size()){
          string matrix1=input.substr(input.find('=')+1,input.find('-')-input.find('=')-1);   matrix1=trim(matrix1);
@@ -146,7 +150,7 @@ cout<<input<<endl;
        }
       }
 
-      if(input.find('/')<input.size()){
+      if(input.find('/')<input.size() && input.find("./")>input.size()){
          string matrix1=input.substr(input.find('=')+1,input.find('/')-input.find('=')-1);   matrix1=trim(matrix1);
          string matrix2=input.substr(input.find('/')+1);          matrix2=trim(matrix2); 
          matMap.insert(pair<string,Matrix>(name,matMap.at(matrix1)/matMap.at(matrix2)));   
@@ -155,6 +159,35 @@ cout<<input<<endl;
        matMap.at(name).printMatrix();
        }
       }
+
+
+      if(input.find("./")<input.size()){
+         string matrix1=input.substr(input.find('=')+1,input.find("./")-input.find('=')-1);  // matrix1=trim(matrix1);
+         string matrix2=input.substr(input.find("./")+2);          matrix2=trim(matrix2); 
+
+        int x1=matMap.count(matrix1);
+        
+        if(x1==0){
+            double firstoperand=atof(matrix1.c_str()); 
+            matMap.insert(pair<string,Matrix>(name,matMap.at(matrix2).elementDivision(firstoperand)));   
+          if(input[input.size()-1]!=';'){
+           cout<<name<<'='<<endl;
+       matMap.at(name).printMatrix();
+          }   
+        }
+       /* else{
+            matMap.insert(pair<string,Matrix>(name,matMap.at(matrix1).elementDivision(matMap.at(matrix2))));   
+          if(input[input.size()-1]!=';'){
+           cout<<name<<'='<<endl;
+       matMap.at(name).printMatrix();
+       } 
+        } */
+       
+       
+      }
+
+
+
 
       if(input[input.size()-1]=='\''){
          
